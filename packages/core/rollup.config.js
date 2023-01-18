@@ -5,7 +5,7 @@ import json from '@rollup/plugin-json'
 import sveltePreprocess from 'svelte-preprocess'
 import typescript from '@rollup/plugin-typescript'
 import copy from '@rollup-extras/plugin-copy'
-import commonjs from '@rollup/plugin-commonjs'
+import commonjs from 'rollup-plugin-commonjs'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -37,7 +37,11 @@ export default {
       inlineSources: !production
     }),
     commonjs({
-      include: /node_modules/
+      namedExports: {
+        '../../node_modules/@unstoppabledomains/resolution/build/index.js': [
+          'Resolution'
+        ]
+      }
     }),
     copy({
       src: 'src/i18n/en.json',
